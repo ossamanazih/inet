@@ -71,28 +71,56 @@ Ipv4::~Ipv4()
     flush();
 }
 
+void Ipv4::handleParameterChange(const char *name)
+{
+    bool wrong = true;
+    if (name == nullptr) {
+        wrong = false;
+        // in initialize only:
+        ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
+        rt = getModuleFromPar<IIpv4RoutingTable>(par("routingTableModule"), this);
+        arp = getModuleFromPar<IArp>(par("arpModule"), this);
+        cModule *arpModule = check_and_cast<cModule *>(arp);
+        arpModule->subscribe(IArp::arpResolutionCompletedSignal, this);
+        arpModule->subscribe(IArp::arpResolutionFailedSignal, this);
+        icmp = getModuleFromPar<Icmp>(par("icmpModule"), this);
+    }
+    if (name == nullptr || !strcmp(name, "crcMode")) {
+        wrong = false;
+        const char *crcModeString = par("crcMode");
+        crcMode = parseCrcMode(crcModeString, false);
+    }
+    if (name == nullptr || !strcmp(name, "timeToLive")) {
+        wrong = false;
+        defaultTimeToLive = par("timeToLive");
+    }
+    if (name == nullptr || !strcmp(name, "multicastTimeToLive")) {
+        wrong = false;
+        defaultMCTimeToLive = par("multicastTimeToLive");
+    }
+    if (name == nullptr || !strcmp(name, "fragmentTimeout")) {
+        wrong = false;
+        fragmentTimeoutTime = par("fragmentTimeout");
+    }
+    if (name == nullptr || !strcmp(name, "limitedBroadcast")) {
+        wrong = false;
+        limitedBroadcast = par("limitedBroadcast");
+    }
+    if (name == nullptr || !strcmp(name, "directBroadcastInterfaces")) {
+        wrong = false;
+        std::string directBroadcastInterfaces = par("directBroadcastInterfaces").stdstringValue();
+        directBroadcastInterfaceMatcher.setPattern(directBroadcastInterfaces.c_str(), false, true, false);
+    }
+    if (wrong)
+        throw cRuntimeError("Changing parameter '%s' not supported", name);
+}
+
 void Ipv4::initialize(int stage)
 {
     OperationalBase::initialize(stage);
 
     if (stage == INITSTAGE_LOCAL) {
-        ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
-        rt = getModuleFromPar<IIpv4RoutingTable>(par("routingTableModule"), this);
-        arp = getModuleFromPar<IArp>(par("arpModule"), this);
-        icmp = getModuleFromPar<Icmp>(par("icmpModule"), this);
-
         transportInGateBaseId = gateBaseId("transportIn");
-
-        const char *crcModeString = par("crcMode");
-        crcMode = parseCrcMode(crcModeString, false);
-
-        defaultTimeToLive = par("timeToLive");
-        defaultMCTimeToLive = par("multicastTimeToLive");
-        fragmentTimeoutTime = par("fragmentTimeout");
-        limitedBroadcast = par("limitedBroadcast");
-        directBroadcastInterfaces = par("directBroadcastInterfaces").stdstringValue();
-
-        directBroadcastInterfaceMatcher.setPattern(directBroadcastInterfaces.c_str(), false, true, false);
 
         curFragmentId = 0;
         lastCheckTime = 0;
@@ -114,10 +142,6 @@ void Ipv4::initialize(int stage)
         WATCH_MAP(socketIdToSocketDescriptor);
     }
     else if (stage == INITSTAGE_NETWORK_LAYER) {
-        cModule *arpModule = check_and_cast<cModule *>(arp);
-        arpModule->subscribe(IArp::arpResolutionCompletedSignal, this);
-        arpModule->subscribe(IArp::arpResolutionFailedSignal, this);
-
         registerService(Protocol::ipv4, gate("transportIn"), gate("transportOut"));
         registerProtocol(Protocol::ipv4, gate("queueOut"), gate("queueIn"));
     }
