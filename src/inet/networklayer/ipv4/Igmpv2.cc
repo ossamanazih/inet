@@ -153,15 +153,14 @@ Igmpv2::~Igmpv2()
         deleteRouterInterfaceData(routerData.begin()->first);
 }
 
-void Igmpv2::initialize(int stage)
+void Igmpv2::handleParameterChange(const char *name)
 {
-    cSimpleModule::initialize(stage);
-
-    if (stage == INITSTAGE_LOCAL) {
+    bool wrong = true;
+    if (name == nullptr) {
+        wrong = false;
+        // at initialize only:
         ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
         rt = getModuleFromPar<IIpv4RoutingTable>(par("routingTableModule"), this);
-
-        externalRouter = false;
         enabled = par("enabled");
         robustness = par("robustnessVariable");
         queryInterval = par("queryInterval");
@@ -174,9 +173,23 @@ void Igmpv2::initialize(int stage)
         lastMemberQueryCount = par("lastMemberQueryCount");
         unsolicitedReportInterval = par("unsolicitedReportInterval");
 //        version1RouterPresentInterval = par("version1RouterPresentInterval");
+    }
+    if (name == nullptr || !strcmp(name, "crcMode")) {
+        wrong = false;
         const char *crcModeString = par("crcMode");
         crcMode = parseCrcMode(crcModeString, false);
+    }
+    if (wrong)
+        throw cRuntimeError("Changing parameter '%s' not supported", name);
+}
 
+void Igmpv2::initialize(int stage)
+{
+    cSimpleModule::initialize(stage);
+
+    if (stage == INITSTAGE_LOCAL) {
+        externalRouter = false;
+        handleParameterChange(nullptr);
         addWatches();
     }
     // TODO INITSTAGE
