@@ -56,19 +56,66 @@ Tcp::~Tcp()
 {
 }
 
+void Tcp::refreshCrcModeFromPar()
+{
+    const char *crcModeString = par("crcMode");
+    crcMode = parseCrcMode(crcModeString, true);
+    if (crcMode == CRC_COMPUTED) {
+#ifdef INET_WITH_IPv4
+        auto ipv4 = dynamic_cast<INetfilter *>(findModuleByPath("^.ipv4.ip"));
+        if (ipv4 != nullptr && !crcInsertion.isRegisteredHook(ipv4))
+            ipv4->registerHook(0, &crcInsertion);
+#endif
+#ifdef INET_WITH_IPv6
+        auto ipv6 = dynamic_cast<INetfilter *>(findModuleByPath("^.ipv6.ipv6"));
+        if (ipv6 != nullptr && !crcInsertion.isRegisteredHook(ipv6))
+            ipv6->registerHook(0, &crcInsertion);
+#endif
+    }
+    else {
+#ifdef INET_WITH_IPv4
+        auto ipv4 = dynamic_cast<INetfilter *>(findModuleByPath("^.ipv4.ip"));
+        if (ipv4 != nullptr && crcInsertion.isRegisteredHook(ipv4))
+            ipv4->unregisterHook(&crcInsertion);
+#endif
+#ifdef INET_WITH_IPv6
+        auto ipv6 = dynamic_cast<INetfilter *>(findModuleByPath("^.ipv6.ipv6"));
+        if (ipv6 != nullptr && crcInsertion.isRegisteredHook(ipv6))
+            ipv6->unregisterHook(&crcInsertion);
+#endif
+    }
+}
+
+void Tcp::handleParameterChange(const char *name)
+{
+    bool wrong = true;
+    if (name == nullptr) {
+        wrong = false;
+        // in initialize only:
+    }
+    if (name == nullptr || !strcmp(name, "crcMode")) {
+        wrong = false;
+        refreshCrcModeFromPar();
+    }
+    if (name == nullptr || !strcmp(name, "msl")) {
+        wrong = false;
+        msl = par("msl");
+    }
+    if (name == nullptr || !strcmp(name, "useDataNotification")) {
+        wrong = false;
+        useDataNotification = par("useDataNotification");
+    }
+//    if (wrong)
+//        throw cRuntimeError("Changing parameter '%s' not supported", name);
+}
+
+
 void Tcp::initialize(int stage)
 {
     OperationalBase::initialize(stage);
 
     if (stage == INITSTAGE_LOCAL) {
-        const char *crcModeString = par("crcMode");
-        crcMode = parseCrcMode(crcModeString, false);
-
         lastEphemeralPort = EPHEMERAL_PORTRANGE_START;
-
-        msl = par("msl");
-        useDataNotification = par("useDataNotification");
-
         WATCH(lastEphemeralPort);
         WATCH_PTRMAP(tcpConnMap);
         WATCH_PTRMAP(tcpAppConnMap);
@@ -76,18 +123,6 @@ void Tcp::initialize(int stage)
     else if (stage == INITSTAGE_TRANSPORT_LAYER) {
         registerService(Protocol::tcp, gate("appIn"), gate("appOut"));
         registerProtocol(Protocol::tcp, gate("ipOut"), gate("ipIn"));
-        if (crcMode == CRC_COMPUTED) {
-#ifdef INET_WITH_IPv4
-            auto ipv4 = dynamic_cast<INetfilter *>(findModuleByPath("^.ipv4.ip"));
-            if (ipv4 != nullptr)
-                ipv4->registerHook(0, &crcInsertion);
-#endif
-#ifdef INET_WITH_IPv6
-            auto ipv6 = dynamic_cast<INetfilter *>(findModuleByPath("^.ipv6.ipv6"));
-            if (ipv6 != nullptr)
-                ipv6->registerHook(0, &crcInsertion);
-#endif
-        }
     }
 }
 

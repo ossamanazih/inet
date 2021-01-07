@@ -160,6 +160,8 @@ class INET_API Tcp : public TransportProtocolBase
     virtual void handleUpperCommand(cMessage *message) override;
     virtual void handleUpperPacket(Packet *packet) override;
     virtual void handleLowerPacket(Packet *packet) override;
+    virtual void handleParameterChange(const char *name) override;
+    virtual void refreshCrcModeFromPar();
 
   public:
     /**
