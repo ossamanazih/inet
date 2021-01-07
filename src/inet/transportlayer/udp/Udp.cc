@@ -114,15 +114,17 @@ void Udp::refreshCrcModeFromPar()
 
 void Udp::handleParameterChange(const char *name)
 {
+    bool wrong = true;
     if (name == nullptr) {
-        // in initialize:
-        refreshCrcModeFromPar();
+        wrong = false;
+        // in initialize only:
         ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
     }
-    else if (!strcmp(name, "crcMode")) {
+    if (name == nullptr || !strcmp(name, "crcMode")) {
+        wrong = false;
         refreshCrcModeFromPar();
     }
-    else
+    if (wrong)
         throw cRuntimeError("Changing parameter '%s' not supported", name);
 }
 
