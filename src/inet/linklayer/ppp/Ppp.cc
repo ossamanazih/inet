@@ -43,14 +43,44 @@ Ppp::~Ppp()
     delete curTxPacket;
 }
 
+void Ppp::handleParameterChange(const char *name)
+{
+    bool wrong = true;
+    if (name == nullptr) {
+        wrong = false;
+        // in initialize only:
+    }
+    if (name == nullptr || !strcmp(name, "displayStringTextFormat")) {
+        wrong = false;
+        displayStringTextFormat = par("displayStringTextFormat");
+    }
+    if (name == nullptr || !strcmp(name, "sendRawBytes")) {
+        wrong = false;
+        sendRawBytes = par("sendRawBytes");
+    }
+    if (name != nullptr && !strcmp(name, "mtu")) {
+        wrong = false;
+        if (networkInterface)
+            networkInterface->setMtu(par("mtu"));   // TODO move mtu parameter to NetworkInterface
+    }
+    if (name == nullptr || !strcmp(name, "stopOperationExtraTime")) {
+        wrong = false;
+        stopOperationExtraTime = par("stopOperationExtraTime");
+    }
+    if (name == nullptr || !strcmp(name, "stopOperationTimeout")) {
+        wrong = false;
+        stopOperationTimeout = par("stopOperationTimeout");
+    }
+    if (wrong)
+        throw cRuntimeError("Changing parameter '%s' not supported", name);
+}
+
 void Ppp::initialize(int stage)
 {
     MacProtocolBase::initialize(stage);
 
     // all initialization is done in the first stage
     if (stage == INITSTAGE_LOCAL) {
-        displayStringTextFormat = par("displayStringTextFormat");
-        sendRawBytes = par("sendRawBytes");
         endTransmissionEvent = new cMessage("pppEndTxEvent");
         lowerLayerInGateId = findGate("phys$i");
         physOutGate = gate("phys$o");
@@ -211,7 +241,7 @@ void Ppp::handleMessageWhenUp(cMessage *message)
         if (txQueue->isEmpty()) {
             networkInterface->setCarrier(false);
             networkInterface->setState(NetworkInterface::State::DOWN);
-            startActiveOperationExtraTimeOrFinish(par("stopOperationExtraTime"));
+            startActiveOperationExtraTimeOrFinish(stopOperationExtraTime);
         }
     }
 }
@@ -367,12 +397,12 @@ void Ppp::handleStopOperation(LifecycleOperation *operation)
 {
     if (!txQueue->isEmpty()) {
         networkInterface->setState(NetworkInterface::State::GOING_DOWN);
-        delayActiveOperationFinish(par("stopOperationTimeout"));
+        delayActiveOperationFinish(stopOperationTimeout);
     }
     else {
         networkInterface->setCarrier(false);
         networkInterface->setState(NetworkInterface::State::DOWN);
-        startActiveOperationExtraTimeOrFinish(par("stopOperationExtraTime"));
+        startActiveOperationExtraTimeOrFinish(stopOperationExtraTime);
     }
 }
 
