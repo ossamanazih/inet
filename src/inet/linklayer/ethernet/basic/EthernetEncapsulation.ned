@@ -48,8 +48,6 @@ simple EthernetEncapsulation like IEthernetEncapsulation
         string fcsMode @enum("declared","computed");
         bool registerProtocol = default(false);     //FIXME //KLUDGE should redesign place of EthernetEncapsulation and LLC modules
         @lifecycleSupport;
-        double stopOperationExtraTime @unit(s) = default(-1s);    // extra time after lifecycle stop operation finished
-        double stopOperationTimeout @unit(s) = default(2s);    // timeout value for lifecycle stop operation
         @display("i=block/square");
         @signal[encapPk](type=cPacket);
         @signal[decapPk](type=cPacket);
