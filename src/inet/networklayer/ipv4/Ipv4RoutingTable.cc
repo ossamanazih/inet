@@ -61,6 +61,32 @@ Ipv4RoutingTable::~Ipv4RoutingTable()
         delete elem;
 }
 
+void Ipv4RoutingTable::handleParameterChange(const char *name)
+{
+    bool wrong = true;
+    if (name == nullptr) {
+        wrong = false;
+        // in initialize only:
+        ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
+
+        netmaskRoutes = par("netmaskRoutes");
+    }
+    if (name == nullptr || !strcmp(name, "forwarding")) {
+        wrong = false;
+        forwarding = par("forwarding");
+    }
+    if (name == nullptr || !strcmp(name, "multicastForwarding")) {
+        wrong = false;
+        multicastForward = par("multicastForwarding");
+    }
+    if (name == nullptr || !strcmp(name, "useAdminDist")) {
+        wrong = false;
+        useAdminDist = par("useAdminDist");
+    }
+    if (wrong)
+        throw cRuntimeError("Changing parameter '%s' not supported", name);
+}
+
 void Ipv4RoutingTable::initialize(int stage)
 {
     cSimpleModule::initialize(stage);
@@ -74,12 +100,7 @@ void Ipv4RoutingTable::initialize(int stage)
         host->subscribe(interfaceConfigChangedSignal, this);
         host->subscribe(interfaceIpv4ConfigChangedSignal, this);
 
-        ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
-
-        netmaskRoutes = par("netmaskRoutes");
-        forwarding = par("forwarding");
-        multicastForward = par("multicastForwarding");
-        useAdminDist = par("useAdminDist");
+        handleParameterChange(nullptr);
 
         WATCH_PTRVECTOR(routes);
         WATCH_PTRVECTOR(multicastRoutes);
