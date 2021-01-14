@@ -73,9 +73,7 @@ Ipv4::~Ipv4()
 
 void Ipv4::handleParameterChange(const char *name)
 {
-    bool wrong = true;
     if (name == nullptr) {
-        wrong = false;
         // in initialize only:
         ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
         rt = getModuleFromPar<IIpv4RoutingTable>(par("routingTableModule"), this);
@@ -86,32 +84,32 @@ void Ipv4::handleParameterChange(const char *name)
         icmp = getModuleFromPar<Icmp>(par("icmpModule"), this);
     }
     if (name == nullptr || !strcmp(name, "crcMode")) {
-        wrong = false;
         const char *crcModeString = par("crcMode");
         crcMode = parseCrcMode(crcModeString, false);
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "timeToLive")) {
-        wrong = false;
         defaultTimeToLive = par("timeToLive");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "multicastTimeToLive")) {
-        wrong = false;
         defaultMCTimeToLive = par("multicastTimeToLive");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "fragmentTimeout")) {
-        wrong = false;
         fragmentTimeoutTime = par("fragmentTimeout");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "limitedBroadcast")) {
-        wrong = false;
         limitedBroadcast = par("limitedBroadcast");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "directBroadcastInterfaces")) {
-        wrong = false;
         std::string directBroadcastInterfaces = par("directBroadcastInterfaces").stdstringValue();
         directBroadcastInterfaceMatcher.setPattern(directBroadcastInterfaces.c_str(), false, true, false);
+        if (name) return;
     }
-    if (wrong)
+    if (name)
         throw cRuntimeError("Changing parameter '%s' not supported", name);
 }
 
