@@ -63,27 +63,24 @@ Ipv4RoutingTable::~Ipv4RoutingTable()
 
 void Ipv4RoutingTable::handleParameterChange(const char *name)
 {
-    bool wrong = true;
     if (name == nullptr) {
-        wrong = false;
         // in initialize only:
         ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
-
         netmaskRoutes = par("netmaskRoutes");
     }
     if (name == nullptr || !strcmp(name, "forwarding")) {
-        wrong = false;
         forwarding = par("forwarding");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "multicastForwarding")) {
-        wrong = false;
         multicastForward = par("multicastForwarding");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "useAdminDist")) {
-        wrong = false;
         useAdminDist = par("useAdminDist");
+        if (name) return;
     }
-    if (wrong)
+    if (name)
         throw cRuntimeError("Changing parameter '%s' not supported", name);
 }
 
