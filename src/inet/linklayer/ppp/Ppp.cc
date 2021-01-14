@@ -45,33 +45,31 @@ Ppp::~Ppp()
 
 void Ppp::handleParameterChange(const char *name)
 {
-    bool wrong = true;
     if (name == nullptr) {
-        wrong = false;
         // in initialize only:
     }
     if (name == nullptr || !strcmp(name, "displayStringTextFormat")) {
-        wrong = false;
         displayStringTextFormat = par("displayStringTextFormat");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "sendRawBytes")) {
-        wrong = false;
         sendRawBytes = par("sendRawBytes");
+        if (name) return;
     }
     if (name != nullptr && !strcmp(name, "mtu")) {
-        wrong = false;
         if (networkInterface)
             networkInterface->setMtu(par("mtu"));   // TODO move mtu parameter to NetworkInterface
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "stopOperationExtraTime")) {
-        wrong = false;
         stopOperationExtraTime = par("stopOperationExtraTime");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "stopOperationTimeout")) {
-        wrong = false;
         stopOperationTimeout = par("stopOperationTimeout");
+        if (name) return;
     }
-    if (wrong)
+    if (name)
         throw cRuntimeError("Changing parameter '%s' not supported", name);
 }
 
