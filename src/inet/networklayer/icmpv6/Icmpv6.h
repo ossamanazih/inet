@@ -108,7 +108,7 @@ class INET_API Icmpv6 : public cSimpleModule, public LifecycleUnsupported, publi
 
   protected:
     CrcMode crcMode = CRC_MODE_UNDEFINED;
-    IInterfaceTable *it = nullptr;
+    IInterfaceTable *ift = nullptr;
     typedef std::map<long, int> PingMap;
     PingMap pingMap;
     std::set<int> transportProtocols; // where to send up packets

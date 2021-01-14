@@ -88,9 +88,7 @@ Ipv6NeighbourDiscovery::~Ipv6NeighbourDiscovery()
 
 void Ipv6NeighbourDiscovery::handleParameterChange(const char *name)
 {
-    bool wrong = true;
     if (name == nullptr) {
-        wrong = false;
         // in initialize only:
         ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
         rt6 = getModuleFromPar<Ipv6RoutingTable>(par("routingTableModule"), this);
@@ -102,11 +100,11 @@ void Ipv6NeighbourDiscovery::handleParameterChange(const char *name)
         maxIntervalBetweenRAs = par("maxIntervalBetweenRAs"); // TODO processing it anytime
     }
     if (name == nullptr || !strcmp(name, "crcMode")) {
-        wrong = false;
         const char *crcModeString = par("crcMode");
         crcMode = parseCrcMode(crcModeString, false);
+        if (name) return;
     }
-    if (wrong)
+    if (name)
         throw cRuntimeError("Changing parameter '%s' not supported", name);
 }
 

@@ -35,18 +35,16 @@ Define_Module(Icmpv6);
 
 void Icmpv6::handleParameterChange(const char *name)
 {
-    bool wrong = true;
-    if (name == nullptr) {
-        wrong = false;
-        // in initialize only:
-        it = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
+    if (name == nullptr || !strcmp(name, "interfaceTableModule")) {
+        ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "crcMode")) {
-        wrong = false;
         const char *crcModeString = par("crcMode");
         crcMode = parseCrcMode(crcModeString, false);
+        if (name) return;
     }
-    if (wrong)
+    if (name)
         throw cRuntimeError("Changing parameter '%s' not supported", name);
 }
 
@@ -186,7 +184,7 @@ void Icmpv6::processEchoRequest(Packet *requestPacket, const Ptr<const Icmpv6Ech
     addressReq->setDestAddress(addressInd->getSrcAddress());
 
     if (addressInd->getDestAddress().isMulticast() /*TODO check for anycast too*/) {
-        auto ipv6Data = it->getInterfaceById(requestPacket->getTag<InterfaceInd>()->getInterfaceId())->getProtocolDataForUpdate<Ipv6InterfaceData>();
+        auto ipv6Data = ift->getInterfaceById(requestPacket->getTag<InterfaceInd>()->getInterfaceId())->getProtocolDataForUpdate<Ipv6InterfaceData>();
         addressReq->setSrcAddress(ipv6Data->getPreferredAddress());
         // TODO implement default address selection properly.
         //      According to RFC 3484, the source address to be used
