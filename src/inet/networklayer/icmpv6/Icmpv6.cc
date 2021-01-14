@@ -25,7 +25,6 @@
 #include "inet/common/lifecycle/NodeStatus.h"
 #include "inet/linklayer/common/InterfaceTag_m.h"
 #include "inet/networklayer/common/L3AddressTag_m.h"
-#include "inet/networklayer/contract/IInterfaceTable.h"
 #include "inet/networklayer/icmpv6/Icmpv6Header_m.h"
 #include "inet/networklayer/ipv6/Ipv6Header.h"
 #include "inet/networklayer/ipv6/Ipv6InterfaceData.h"
@@ -34,13 +33,28 @@ namespace inet {
 
 Define_Module(Icmpv6);
 
+void Icmpv6::handleParameterChange(const char *name)
+{
+    bool wrong = true;
+    if (name == nullptr) {
+        wrong = false;
+        // in initialize only:
+        it = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
+    }
+    if (name == nullptr || !strcmp(name, "crcMode")) {
+        wrong = false;
+        const char *crcModeString = par("crcMode");
+        crcMode = parseCrcMode(crcModeString, false);
+    }
+    if (wrong)
+        throw cRuntimeError("Changing parameter '%s' not supported", name);
+}
+
 void Icmpv6::initialize(int stage)
 {
     cSimpleModule::initialize(stage);
 
     if (stage == INITSTAGE_LOCAL) {
-        const char *crcModeString = par("crcMode");
-        crcMode = parseCrcMode(crcModeString, false);
     }
     else if (stage == INITSTAGE_NETWORK_LAYER_PROTOCOLS) {
         bool isOperational;
@@ -172,7 +186,6 @@ void Icmpv6::processEchoRequest(Packet *requestPacket, const Ptr<const Icmpv6Ech
     addressReq->setDestAddress(addressInd->getSrcAddress());
 
     if (addressInd->getDestAddress().isMulticast() /*TODO check for anycast too*/) {
-        IInterfaceTable *it = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
         auto ipv6Data = it->getInterfaceById(requestPacket->getTag<InterfaceInd>()->getInterfaceId())->getProtocolDataForUpdate<Ipv6InterfaceData>();
         addressReq->setSrcAddress(ipv6Data->getPreferredAddress());
         // TODO implement default address selection properly.
