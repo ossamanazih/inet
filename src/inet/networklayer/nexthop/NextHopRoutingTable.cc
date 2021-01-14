@@ -56,9 +56,7 @@ NextHopRoutingTable::~NextHopRoutingTable()
 
 void NextHopRoutingTable::handleParameterChange(const char *name)
 {
-    bool wrong = true;
     if (name == nullptr) {
-        wrong = false;
         // in initialize only:
         ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
         const char *addressTypeString = par("addressType");
@@ -73,14 +71,14 @@ void NextHopRoutingTable::handleParameterChange(const char *name)
 
     }
     if (name == nullptr || !strcmp(name, "forwarding")) {
-        wrong = false;
         forwarding = par("forwarding");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "multicastForwarding")) {
-        wrong = false;
         multicastForwarding = par("multicastForwarding");
+        if (name) return;
     }
-    if (wrong)
+    if (name)
         throw cRuntimeError("Changing parameter '%s' not supported", name);
 }
 
