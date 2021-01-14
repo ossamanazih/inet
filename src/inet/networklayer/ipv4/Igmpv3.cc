@@ -72,9 +72,7 @@ Igmpv3::~Igmpv3()
 
 void Igmpv3::handleParameterChange(const char *name)
 {
-    bool wrong = true;
     if (name == nullptr) {
-        wrong = false;
         // at initialize only:
         ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
         rt = getModuleFromPar<IIpv4RoutingTable>(par("routingTableModule"), this);
@@ -92,11 +90,11 @@ void Igmpv3::handleParameterChange(const char *name)
         unsolicitedReportInterval = par("unsolicitedReportInterval");
     }
     if (name == nullptr || !strcmp(name, "crcMode")) {
-        wrong = false;
         const char *crcModeString = par("crcMode");
         crcMode = parseCrcMode(crcModeString, false);
+        if (name) return;
     }
-    if (wrong)
+    if (name)
         throw cRuntimeError("Changing parameter '%s' not supported", name);
 }
 
