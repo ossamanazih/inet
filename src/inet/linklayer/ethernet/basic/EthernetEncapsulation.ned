@@ -44,8 +44,8 @@ simple EthernetEncapsulation like IEthernetEncapsulation
 {
     parameters:
         string interfaceTableModule;   // The path to the InterfaceTable module
-        bool useSNAP = default(false);  // create EtherFrameWithSNAP frames instead of EthernetIIFrame
-        string fcsMode @enum("declared","computed");
+        bool useSNAP @mutable = default(false);  // create EtherFrameWithSNAP frames instead of EthernetIIFrame
+        string fcsMode @mutable @enum("declared","computed");
         bool registerProtocol = default(false);     //FIXME //KLUDGE should redesign place of EthernetEncapsulation and LLC modules
         @lifecycleSupport;
         @display("i=block/square");

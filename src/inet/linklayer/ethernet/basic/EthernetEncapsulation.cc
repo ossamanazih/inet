@@ -75,20 +75,15 @@ bool EthernetEncapsulation::Socket::matches(Packet *packet, const Ptr<const Ethe
 
 void EthernetEncapsulation::handleParameterChange(const char *name)
 {
-    bool wrong = true;
-    if (name == nullptr) {
-        wrong = false;
-        // in initialize only:
-    }
     if (name == nullptr || !strcmp(name, "useSNAP")) {
-        wrong = false;
         useSNAP = par("useSNAP");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "fcsMode")) {
-        wrong = false;
         fcsMode = parseFcsMode(par("fcsMode"));
+        if (name) return;
     }
-    if (wrong)
+    if (name)
         throw cRuntimeError("Changing parameter '%s' not supported", name);
 }
 
