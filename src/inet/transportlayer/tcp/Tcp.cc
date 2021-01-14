@@ -88,22 +88,20 @@ void Tcp::refreshCrcModeFromPar()
 
 void Tcp::handleParameterChange(const char *name)
 {
-    bool wrong = true;
     if (name == nullptr) {
-        wrong = false;
         // in initialize only:
     }
     if (name == nullptr || !strcmp(name, "crcMode")) {
-        wrong = false;
         refreshCrcModeFromPar();
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "msl")) {
-        wrong = false;
         msl = par("msl");
+        if (name) return;
     }
     if (name == nullptr || !strcmp(name, "useDataNotification")) {
-        wrong = false;
         useDataNotification = par("useDataNotification");
+        if (name) return;
     }
 //    if (wrong)
 //        throw cRuntimeError("Changing parameter '%s' not supported", name);
