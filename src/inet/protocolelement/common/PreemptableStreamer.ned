@@ -27,9 +27,9 @@ import inet.queueing.contract.IPacketFlow;
 simple PreemptableStreamer extends PacketProcessorBase like IPacketFlow
 {
     parameters:
-        double datarate @unit(bps) = default(nan bps);
-        int minPacketLength @unit(b);
-        int roundingLength @unit(b) = default(1B);
+        double datarate @mutable @unit(bps) = default(nan bps);
+        int minPacketLength @mutable @unit(b);
+        int roundingLength @mutable @unit(b) = default(1B);
         @class(PreemptableStreamer);
         @display("i=block/cogwheel");
     gates:
