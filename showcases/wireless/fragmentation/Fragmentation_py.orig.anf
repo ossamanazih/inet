@@ -17,9 +17,7 @@
     <charts>
         <chart icon="icons/full/obj/barchart.png" id="90" name="Number of packets received" template="barchart_mpl" type="MATPLOTLIB">
             <script>
-                <![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
-
-from omnetpp.scave import results, chart
+                <![CDATA[from omnetpp.scave import results, chart
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -368,7 +366,7 @@ from omnetpp.scave import results, chart, vectorops as ops
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from tkinter.tix import COLUMN
+#from tkinter.tix import COLUMN
 
 params = chart.get_properties()
 

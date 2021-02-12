@@ -8,7 +8,8 @@
     </inputs>
     <charts>
         <chart icon="icons/full/obj/linechart.png" id="15" name="End-to-end delay, Non-QoS" template="linechart_mpl" type="MATPLOTLIB">
-            <script><![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
+            <script>
+                <![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
 
 from omnetpp.scave import results, chart, vectorops as ops
 import matplotlib.pyplot as plt
@@ -61,8 +62,10 @@ plt.title('End-to-end delay, non-QoS')
 
 plt.legend(markerscale=4, loc=2)
 
-plt.savefig('delay_nonqos.png', dpi=150, transparent=True)]]></script>
-            <dialogPage id="Main" label="Main"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+plt.savefig('delay_nonqos.png', dpi=150, transparent=True)]]>
+            </script>
+            <dialogPage id="Main" label="Main">
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <xswt xmlns:x="http://sweet_swt.sf.net/xswt">
 
   <import xmlns="http://sweet_swt.sf.net/xswt">
@@ -128,8 +131,10 @@ Colors {
 
   </x:children>
 </xswt>
-]]></dialogPage>
-            <dialogPage id="Input" label="Input"><![CDATA[<?xml version='1.0' encoding='UTF-8'?>
+]]>
+            </dialogPage>
+            <dialogPage id="Input" label="Input">
+                <![CDATA[<?xml version='1.0' encoding='UTF-8'?>
 <xswt xmlns:x='http://sweet_swt.sf.net/xswt'>
   <import xmlns='http://sweet_swt.sf.net/xswt'>
     <package name='java.lang'/>
@@ -161,13 +166,15 @@ Colors {
 
     </group>
   </x:children>
-</xswt>]]></dialogPage>
+</xswt>]]>
+            </dialogPage>
             <property name="filter" value="name(endToEndDelay:vector) AND (runattr:experiment(NonQos))"/>
             <property name="background_color" value=""/>
             <property name="title" value=""/>
         </chart>
         <chart icon="icons/full/obj/linechart.png" id="29" name="End-to-end delay, QoS" template="linechart_mpl" type="MATPLOTLIB">
-            <script><![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
+            <script>
+                <![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
 
 from omnetpp.scave import results, chart, vectorops as ops
 import matplotlib.pyplot as plt
@@ -213,8 +220,10 @@ plt.title('End-to-end delay, QoS')
 
 plt.legend(markerscale=4, loc=2)
 
-plt.savefig('delay_qos.png', dpi=150, transparent=True)]]></script>
-            <dialogPage id="Main" label="Main"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+plt.savefig('delay_qos.png', dpi=150, transparent=True)]]>
+            </script>
+            <dialogPage id="Main" label="Main">
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <xswt xmlns:x="http://sweet_swt.sf.net/xswt">
 
   <import xmlns="http://sweet_swt.sf.net/xswt">
@@ -280,8 +289,10 @@ Colors {
 
   </x:children>
 </xswt>
-]]></dialogPage>
-            <dialogPage id="Input" label="Input"><![CDATA[<?xml version='1.0' encoding='UTF-8'?>
+]]>
+            </dialogPage>
+            <dialogPage id="Input" label="Input">
+                <![CDATA[<?xml version='1.0' encoding='UTF-8'?>
 <xswt xmlns:x='http://sweet_swt.sf.net/xswt'>
   <import xmlns='http://sweet_swt.sf.net/xswt'>
     <package name='java.lang'/>
@@ -313,13 +324,15 @@ Colors {
 
     </group>
   </x:children>
-</xswt>]]></dialogPage>
+</xswt>]]>
+            </dialogPage>
             <property name="filter" value="name(endToEndDelay:vector) AND (runattr:experiment(Qos))"/>
             <property name="background_color" value=""/>
             <property name="title" value=""/>
         </chart>
         <chart icon="icons/full/obj/linechart.png" id="180" name="Instantaneous packet delay variation, non-QoS" template="linechart_mpl" type="MATPLOTLIB">
-            <script><![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
+            <script>
+                <![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
 
 from omnetpp.scave import results, chart, vectorops as ops
 import matplotlib.pyplot as plt
@@ -416,8 +429,10 @@ def on_ylims_change(axes):
 ax.callbacks.connect('xlim_changed', on_xlims_change)
 ax.callbacks.connect('ylim_changed', on_ylims_change)
 
-plt.savefig('jitter_nonqos.png', dpi=150, transparent=True)]]></script>
-            <dialogPage id="Main" label="Main"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+plt.savefig('jitter_nonqos.png', dpi=150, transparent=True)]]>
+            </script>
+            <dialogPage id="Main" label="Main">
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <xswt xmlns:x="http://sweet_swt.sf.net/xswt">
 
   <import xmlns="http://sweet_swt.sf.net/xswt">
@@ -483,8 +498,10 @@ Colors {
 
   </x:children>
 </xswt>
-]]></dialogPage>
-            <dialogPage id="Input" label="Input"><![CDATA[<?xml version='1.0' encoding='UTF-8'?>
+]]>
+            </dialogPage>
+            <dialogPage id="Input" label="Input">
+                <![CDATA[<?xml version='1.0' encoding='UTF-8'?>
 <xswt xmlns:x='http://sweet_swt.sf.net/xswt'>
   <import xmlns='http://sweet_swt.sf.net/xswt'>
     <package name='java.lang'/>
@@ -516,13 +533,15 @@ Colors {
 
     </group>
   </x:children>
-</xswt>]]></dialogPage>
+</xswt>]]>
+            </dialogPage>
             <property name="filter" value="name(endToEndDelay:vector) AND (runattr:experiment(NonQos))"/>
             <property name="background_color" value=""/>
             <property name="title" value=""/>
         </chart>
         <chart icon="icons/full/obj/linechart.png" id="188" name="Instantaneous packet delay variation, QoS" template="linechart_mpl" type="MATPLOTLIB">
-            <script><![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
+            <script>
+                <![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
 
 from omnetpp.scave import results, chart, vectorops as ops
 import matplotlib.pyplot as plt
@@ -633,8 +652,10 @@ plt.title('Instantaneous packet delay variation, QoS')
 if zoom:
     plt.savefig('jitter_qos_zoomed.png', dpi=150, transparent=True)
 else:
-    plt.savefig('jitter_qos.png', dpi=150, transparent=True)]]></script>
-            <dialogPage id="Main" label="Main"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+    plt.savefig('jitter_qos.png', dpi=150, transparent=True)]]>
+            </script>
+            <dialogPage id="Main" label="Main">
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <xswt xmlns:x="http://sweet_swt.sf.net/xswt">
 
   <import xmlns="http://sweet_swt.sf.net/xswt">
@@ -700,8 +721,10 @@ Colors {
 
   </x:children>
 </xswt>
-]]></dialogPage>
-            <dialogPage id="Input" label="Input"><![CDATA[<?xml version='1.0' encoding='UTF-8'?>
+]]>
+            </dialogPage>
+            <dialogPage id="Input" label="Input">
+                <![CDATA[<?xml version='1.0' encoding='UTF-8'?>
 <xswt xmlns:x='http://sweet_swt.sf.net/xswt'>
   <import xmlns='http://sweet_swt.sf.net/xswt'>
     <package name='java.lang'/>
@@ -733,13 +756,15 @@ Colors {
 
     </group>
   </x:children>
-</xswt>]]></dialogPage>
+</xswt>]]>
+            </dialogPage>
             <property name="filter" value="name(endToEndDelay:vector) AND (runattr:experiment(Qos))"/>
             <property name="background_color" value=""/>
             <property name="title" value=""/>
         </chart>
         <chart icon="icons/full/obj/linechart.png" id="473" name="Instantaneous packet delay variation, non-QoS and QoS" template="linechart_mpl" type="MATPLOTLIB">
-            <script><![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
+            <script>
+                <![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
 
 from omnetpp.scave import results, chart, vectorops as ops
 import matplotlib.pyplot as plt
@@ -866,8 +891,10 @@ plt.title('QoS')
 plt.suptitle('Instantaneous packet delay variation',y=1, size=14)
 
 plt.savefig('jitter.png', dpi=150, transparent=True)
-]]></script>
-            <dialogPage id="Main" label="Main"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+]]>
+            </script>
+            <dialogPage id="Main" label="Main">
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <xswt xmlns:x="http://sweet_swt.sf.net/xswt">
 
   <import xmlns="http://sweet_swt.sf.net/xswt">
@@ -933,8 +960,10 @@ Colors {
 
   </x:children>
 </xswt>
-]]></dialogPage>
-            <dialogPage id="Input" label="Input"><![CDATA[<?xml version='1.0' encoding='UTF-8'?>
+]]>
+            </dialogPage>
+            <dialogPage id="Input" label="Input">
+                <![CDATA[<?xml version='1.0' encoding='UTF-8'?>
 <xswt xmlns:x='http://sweet_swt.sf.net/xswt'>
   <import xmlns='http://sweet_swt.sf.net/xswt'>
     <package name='java.lang'/>
@@ -966,13 +995,15 @@ Colors {
 
     </group>
   </x:children>
-</xswt>]]></dialogPage>
+</xswt>]]>
+            </dialogPage>
             <property name="filter" value=""/>
             <property name="background_color" value=""/>
             <property name="title" value=""/>
         </chart>
         <chart icon="icons/full/obj/linechart.png" id="196" name="Throughput, non-QoS" template="linechart_mpl" type="MATPLOTLIB">
-            <script><![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
+            <script>
+                <![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
 
 from omnetpp.scave import results, chart, vectorops as ops
 import matplotlib.pyplot as plt
@@ -1012,8 +1043,10 @@ plt.xlim(0.5,8)
 
 plt.legend(markerscale=4)
 
-plt.savefig('throughput_nonqos_.png', dpi=150, transparent=True)]]></script>
-            <dialogPage id="Main" label="Main"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+plt.savefig('throughput_nonqos_.png', dpi=150, transparent=True)]]>
+            </script>
+            <dialogPage id="Main" label="Main">
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <xswt xmlns:x="http://sweet_swt.sf.net/xswt">
 
   <import xmlns="http://sweet_swt.sf.net/xswt">
@@ -1079,8 +1112,10 @@ Colors {
 
   </x:children>
 </xswt>
-]]></dialogPage>
-            <dialogPage id="Input" label="Input"><![CDATA[<?xml version='1.0' encoding='UTF-8'?>
+]]>
+            </dialogPage>
+            <dialogPage id="Input" label="Input">
+                <![CDATA[<?xml version='1.0' encoding='UTF-8'?>
 <xswt xmlns:x='http://sweet_swt.sf.net/xswt'>
   <import xmlns='http://sweet_swt.sf.net/xswt'>
     <package name='java.lang'/>
@@ -1112,13 +1147,15 @@ Colors {
 
     </group>
   </x:children>
-</xswt>]]></dialogPage>
+</xswt>]]>
+            </dialogPage>
             <property name="filter" value="name(throughput:vector) AND (runattr:experiment(NonQos) AND runattr:replication(&quot;#0&quot;) AND module(&quot;QosShowcase.server.app[0]&quot;) AND name(throughput:vector) &#10;runattr:experiment(NonQos) AND runattr:replication(&quot;#0&quot;) AND module(&quot;QosShowcase.server.app[1]&quot;) AND name(throughput:vector) &#10;runattr:experiment(NonQos) AND runattr:replication(&quot;#0&quot;) AND module(&quot;QosShowcase.server.app[2]&quot;) AND name(throughput:vector) &#10;runattr:experiment(NonQos) AND runattr:replication(&quot;#0&quot;) AND module(&quot;QosShowcase.server.app[3]&quot;) AND name(throughput:vector) &#10;)"/>
             <property name="background_color" value=""/>
             <property name="title" value=""/>
         </chart>
         <chart icon="icons/full/obj/linechart.png" id="568" name="Throughput, QoS" template="linechart_mpl" type="MATPLOTLIB">
-            <script><![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
+            <script>
+                <![CDATA[# IDE version   OMNeT++ IDE    6.0.0.190710-009aaf6ab8
 
 from omnetpp.scave import results, chart, vectorops as ops
 import matplotlib.pyplot as plt
@@ -1158,8 +1195,10 @@ plt.xlim(0.5,8)
 
 plt.legend(markerscale=4)
 
-plt.savefig('throughput_qos_.png', dpi=150, transparent=True)]]></script>
-            <dialogPage id="Main" label="Main"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+plt.savefig('throughput_qos_.png', dpi=150, transparent=True)]]>
+            </script>
+            <dialogPage id="Main" label="Main">
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <xswt xmlns:x="http://sweet_swt.sf.net/xswt">
 
   <import xmlns="http://sweet_swt.sf.net/xswt">
@@ -1225,8 +1264,10 @@ Colors {
 
   </x:children>
 </xswt>
-]]></dialogPage>
-            <dialogPage id="Input" label="Input"><![CDATA[<?xml version='1.0' encoding='UTF-8'?>
+]]>
+            </dialogPage>
+            <dialogPage id="Input" label="Input">
+                <![CDATA[<?xml version='1.0' encoding='UTF-8'?>
 <xswt xmlns:x='http://sweet_swt.sf.net/xswt'>
   <import xmlns='http://sweet_swt.sf.net/xswt'>
     <package name='java.lang'/>
@@ -1258,7 +1299,8 @@ Colors {
 
     </group>
   </x:children>
-</xswt>]]></dialogPage>
+</xswt>]]>
+            </dialogPage>
             <property name="filter" value="name(throughput:vector) AND (runattr:experiment(Qos) AND runattr:replication(&quot;#0&quot;) AND module(&quot;QosShowcase.server.app[2]&quot;) AND name(throughput:vector) &#10;runattr:experiment(Qos) AND runattr:replication(&quot;#0&quot;) AND module(&quot;QosShowcase.server.app[3]&quot;) AND name(throughput:vector) &#10;runattr:experiment(Qos) AND runattr:replication(&quot;#0&quot;) AND module(&quot;QosShowcase.server.app[1]&quot;) AND name(throughput:vector) &#10;runattr:experiment(Qos) AND runattr:replication(&quot;#0&quot;) AND module(&quot;QosShowcase.server.app[0]&quot;) AND name(throughput:vector) &#10;)"/>
             <property name="background_color" value=""/>
             <property name="title" value=""/>
